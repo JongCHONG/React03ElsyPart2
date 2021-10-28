@@ -2,7 +2,7 @@ import React from "react"
 
 class Box extends React.Component {
   render() {
-    console.log(this.props)
+    // console.log(this.props)
 
     return (
       <div className="box col-sm-3 col-6">

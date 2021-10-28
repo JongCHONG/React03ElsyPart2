@@ -22,20 +22,34 @@ class App extends React.Component {
     }
   }
   
-  onHeartChange = (e) => {
+  onHeartChange = (e, action) => {
     this.setState({heart: e.target.value})
+    this.calculatewater(e.target.value, action)
   }
-  onTemperatureChange = (e) => {
+  onTemperatureChange = (e, action) => {
     this.setState({temperature: e.target.value})
+    this.calculatewater(e.target.value, action)
   }
-  onStepsChange = (e) => {
+  onStepsChange = (e, action) => {
     this.setState({steps: e.target.value})
+    this.calculatewater(e.target.value, action)
   }
-  calculatewater = () => {
-    let toDrink = 0
-    if (this.state.temperature > 20) {
-      for (let i = 20; i <= tempMax; i++) {
-        toDrink = toDrink + 0.02
+  calculatewater = (temp, action) => {
+    console.log(action);
+    let toDrink = this.state.water
+    if (action === "action-temp") {
+      if (this.state.temperature > 20) {
+        toDrink = (temp - 20) * 0.02
+      }
+    }
+    if (action === "action-heart") {
+      if (this.state.heart > 120) {
+        toDrink = (temp - 120) * 0.008
+      }
+    }
+    if (action === "action-steps") {
+      if (this.state.steps > 10000) {
+        toDrink = (temp - 10000) * 0.00002
       }
     }
     console.log(toDrink)
@@ -62,7 +76,7 @@ class App extends React.Component {
             unit="steps" 
             min={stepsMin} 
             max={stepsMax} 
-            onChange={this.onStepsChange}
+            onChange={(e) => this.onStepsChange(e, "action-steps")}
           />
           
           {/* Heart */}
@@ -73,7 +87,7 @@ class App extends React.Component {
             unit="bpm" 
             min={heartMin} 
             max={heartMax} 
-            onChange={this.onHeartChange}
+            onChange={(e) => this.onHeartChange(e, "action-heart")}
           />
           
           {/* Temperature */}
@@ -84,7 +98,7 @@ class App extends React.Component {
             unit="°C" 
             min={tempMin} 
             max={tempMax} 
-            onChange={this.onTemperatureChange}
+            onChange={(e) => this.onTemperatureChange(e,"action-temp")}
           />
         </div>
       </div>
