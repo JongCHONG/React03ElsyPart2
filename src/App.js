@@ -15,11 +15,12 @@ class App extends React.Component {
     super ()
 
     this.state = {
-      water: 0,
+      water: 1.5,
       heart: 120,
       temperature: -10,
       steps: 3000
     }
+    //this.onHeartChange = this.onHeartChange.bind(this)
   }
   
   onHeartChange = (e, action) => {
@@ -36,24 +37,25 @@ class App extends React.Component {
   }
   calculatewater = (temp, action) => {
     console.log(action);
-    let toDrink = this.state.water
-    if (action === "action-temp") {
+    let toDrink = 0
+
+    if (action === "action-temp") { //pas obligatoire le if
       if (this.state.temperature > 20) {
-        toDrink = (temp - 20) * 0.02
+        toDrink += (temp - 20) * 0.02
       }
     }
-    if (action === "action-heart") {
+    if (action === "action-heart") { //pas obligatoire le if
       if (this.state.heart > 120) {
-        toDrink = (temp - 120) * 0.008
+        toDrink += (temp - 120) * 0.008
       }
     }
-    if (action === "action-steps") {
+    if (action === "action-steps") { //pas obligatoire le if
       if (this.state.steps > 10000) {
-        toDrink = (temp - 10000) * 0.00002
+        toDrink += (temp - 10000) * 0.00002
       }
     }
     console.log(toDrink)
-    this.setState({water: toDrink})
+    this.setState({water: this.state.water + toDrink})
   }
 
   render() {
